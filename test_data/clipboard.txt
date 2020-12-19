@@ -1,0 +1,26 @@
+Deck
+4 Bonecrusher Giant
+4 Brushfire Elemental
+4 Cragcrown Pathway
+4 Return to Nature
+4 Embercleave
+4 Fabled Passage
+2 Fire Prophecy
+9 Plains
+4 Kazandu Mammoth
+4 Lovestruck Beast
+4 Mountain
+3 Scavenging Ooze
+4 Shatterskull Smashing
+1 Temple of Abandon
+2 The Great Henge
+3 Vivien, Monsters' Advocate
+
+Sideboard
+2 Garruk, Unleashed
+3 Ox of Agonas
+2 Phoenix of Ash
+2 Scorching Dragonfire
+2 Soul Sear
+2 The Akroan War
+2 Wilt

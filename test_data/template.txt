@@ -1,0 +1,4 @@
+Deck
+[QUANTITY] [NAME] [SET] [ID]
+[1] [Plains] [(THB)] [250]
+[4] [Return to Nature] [(ELD)] [173]

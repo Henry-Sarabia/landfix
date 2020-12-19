@@ -9,4 +9,8 @@
         "forceConsistentCasingInFileNames": true
     },
     "display": "Recommended",
+    "files": [
+        "background_script.ts",
+        "options/script.ts"
+    ]
 }
