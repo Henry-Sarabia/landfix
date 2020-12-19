@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": ["dom", "ES2017"],
+        "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "display": "Recommended",
+}

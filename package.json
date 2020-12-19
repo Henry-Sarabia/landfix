@@ -1,0 +1,9 @@
+{
+  "name": "landfix",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "web-ext-types": "^3.2.1"
+  }
+}
