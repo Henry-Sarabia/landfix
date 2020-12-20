@@ -35,11 +35,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var regexBaseCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+)/ig;
 browser.browserAction.onClicked.addListener(replaceClipboard);
+// replaceClipboard replaces every card with a corresponding preference stored
+// in the browser's local storage.
 function replaceClipboard() {
     return __awaiter(this, void 0, void 0, function () {
+        var clipboard, cards, cardObj_1, prefs, keys, vals, i, err_1;
         return __generator(this, function (_a) {
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, navigator.clipboard.readText()];
+                case 1:
+                    clipboard = _a.sent();
+                    cards = extractBaseCards(clipboard.trim());
+                    cardObj_1 = {};
+                    cards.forEach(function (card) {
+                        cardObj_1[card] = card;
+                    });
+                    return [4 /*yield*/, browser.storage.local.get(cardObj_1)];
+                case 2:
+                    prefs = _a.sent();
+                    keys = Object.keys(prefs);
+                    vals = Object.values(prefs);
+                    for (i = 0; i < vals.length; i++) {
+                        clipboard = clipboard.replace(keys[i], vals[i]);
+                    }
+                    navigator.clipboard.writeText(clipboard);
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_1 = _a.sent();
+                    console.error(err_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
         });
     });
+}
+// extractBaseCards finds every card in the given text. The cards are returned as
+// an array of strings. 
+function extractBaseCards(text) {
+    var cards = [];
+    var matches;
+    while ((matches = regexBaseCard.exec(text)) !== null) {
+        cards.push(matches[2]);
+    }
+    return cards;
 }

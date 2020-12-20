@@ -1,12 +1,12 @@
 "use strict";
 var _a;
-var textareaID = "preferences";
+var textareaDOMID = "preferences";
 var regexCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+) (\(\w+\)) (\d+)/ig;
 (_a = document.querySelector("form")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", savePreferences);
 // savePreferences extracts and saves MTG cards from the preference textarea.
 function savePreferences(e) {
     e.preventDefault();
-    var textarea = document.getElementById(textareaID);
+    var textarea = document.getElementById(textareaDOMID);
     if (!textarea) {
         return;
     }

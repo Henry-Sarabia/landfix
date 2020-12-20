@@ -1,4 +1,4 @@
-const textareaID = "preferences";
+const textareaDOMID = "preferences";
 const regexCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+) (\(\w+\)) (\d+)/ig;
 
 document.querySelector("form")?.addEventListener("submit", savePreferences);
@@ -6,7 +6,7 @@ document.querySelector("form")?.addEventListener("submit", savePreferences);
 // savePreferences extracts and saves MTG cards from the preference textarea.
 function savePreferences(e: { preventDefault: () => void; }): void {
     e.preventDefault();
-    let textarea: HTMLElement | null = document.getElementById(textareaID);
+    let textarea: HTMLElement | null = document.getElementById(textareaDOMID);
     if (!textarea) {
         return
     }
@@ -15,8 +15,8 @@ function savePreferences(e: { preventDefault: () => void; }): void {
     textarea.value = "";
     if (Object.entries(cards).length <= 0) {
         return
-    }
-
+    } 
+ 
     let prefs: { [key: string]: string } = {};
     cards.forEach(card => {
         prefs[card[0]] = card[1];
@@ -35,7 +35,7 @@ function extractCards(text: string): [string, string][] {
 
     while ((matches = regexCard.exec(text)) !== null) {
         let name: string = matches[2];
-        let id : string = `${matches[4]} ${matches[5]}`;
+        let id: string = `${matches[4]} ${matches[5]}`;
         cards.push([name, `${name} ${id}`]);
     }
 
