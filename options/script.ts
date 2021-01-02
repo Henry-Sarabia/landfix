@@ -1,43 +1,48 @@
 const textareaDOMID = "preferences";
-const regexCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+) (\(\w+\)) (\d+)/ig;
+const regexFullCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+) ((\(\w+\)) (\d+))/ig;
 
 document.querySelector("form")?.addEventListener("submit", savePreferences);
+
+// Card contains identifying information on a Magic: The Gathering playing card.
+interface Card {
+    name: string;
+    id?: string;
+}
 
 // savePreferences extracts and saves MTG cards from the preference textarea.
 function savePreferences(e: { preventDefault: () => void; }): void {
     e.preventDefault();
-    let textarea: HTMLElement | null = document.getElementById(textareaDOMID);
+    let textarea = document.getElementById(textareaDOMID) as HTMLTextAreaElement;
     if (!textarea) {
         return
     }
-
-    let cards: [string, string][] = extractCards(textarea.value.trim());
+ 
+    const cards: Card[] = extractFullCards(textarea.value.trim());
     textarea.value = "";
     if (Object.entries(cards).length <= 0) {
         return
-    } 
- 
-    let prefs: { [key: string]: string } = {};
+    }
+
+    let prefs: { [key: string]: Card } = {};
     cards.forEach(card => {
-        prefs[card[0]] = card[1];
+        prefs[card.name] = card;
     });
 
-    browser.storage.local.set(prefs)
+    browser.storage.local.set(prefs as unknown as browser.storage.StorageObject)
         .catch((err: any) => { console.error(err) });
     return;
 }
-
-// extractCards finds every card in the given text. The cards are returned as
-// tuples of strings corresponding to a card's name and full entry respectively. 
-function extractCards(text: string): [string, string][] {
-    let cards: [string, string][] = [];
+// extractFullCards finds every card (including set ID) in the given text. 
+function extractFullCards(text: string): Card[] {
+    let cards: Card[] = [];
     let matches: RegExpExecArray | null;
 
-    while ((matches = regexCard.exec(text)) !== null) {
-        let name: string = matches[2];
-        let id: string = `${matches[4]} ${matches[5]}`;
-        cards.push([name, `${name} ${id}`]);
+    while ((matches = regexFullCard.exec(text)) !== null) {
+        cards.push({
+            name: matches[2],
+            id: matches[4],
+        });
     }
 
-    return cards;
+    return cards; 
 }

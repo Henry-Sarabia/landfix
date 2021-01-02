@@ -5,5 +5,8 @@
   "license": "MIT",
   "devDependencies": {
     "web-ext-types": "^3.2.1"
+  },
+  "dependencies": {
+    "web-ext": "^5.4.1"
   }
 }

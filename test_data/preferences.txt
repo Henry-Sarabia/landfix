@@ -1,11 +1,12 @@
 Deck
-1 Return to Nature (ELD) 173
-1 Plains (THB) 250
-1 Island (THB) 251
-1 Swamp (THB) 252
-1 Mountain (THB) 253
-1 Forest (THB) 254
-1 Opt (XLN) 65
-1 Disenchant (M20) 14
-1 Shock (M21) 159
-1 Duress (XLN) 105
+1 Return to Nature (PRF) 173
+1 Plains (PRF) 250
+1 Island (PRF) 251
+1 Swamp (PRF) 252
+1 Mountain (PRF) 253
+1 Forest (PRF) 254
+1 Opt (PRF) 65
+1 Disenchant (PRF) 14
+1 Shock (PRF) 159
+1 Duress (PRF) 105
+ 

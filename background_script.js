@@ -35,51 +35,76 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var regexBaseCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+)/ig;
+var regexCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+)((\(\w+\)) (\d+))?/ig;
 browser.browserAction.onClicked.addListener(replaceClipboard);
 // replaceClipboard replaces every card with a corresponding preference stored
 // in the browser's local storage.
 function replaceClipboard() {
     return __awaiter(this, void 0, void 0, function () {
-        var clipboard, cards, cardObj_1, prefs, keys, vals, i, err_1;
+        var text, clip, cards, names, result, prefs, fullcards_1, clip2_1, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
+                    _a.trys.push([0, 4, , 5]);
                     return [4 /*yield*/, navigator.clipboard.readText()];
                 case 1:
-                    clipboard = _a.sent();
-                    cards = extractBaseCards(clipboard.trim());
-                    cardObj_1 = {};
-                    cards.forEach(function (card) {
-                        cardObj_1[card] = card;
-                    });
-                    return [4 /*yield*/, browser.storage.local.get(cardObj_1)];
+                    text = _a.sent();
+                    clip = text.trim();
+                    cards = extractCards(clip);
+                    names = cards.map(function (card) { return card.name; });
+                    return [4 /*yield*/, browser.storage.local.get(names)];
                 case 2:
-                    prefs = _a.sent();
-                    keys = Object.keys(prefs);
-                    vals = Object.values(prefs);
-                    for (i = 0; i < vals.length; i++) {
-                        clipboard = clipboard.replace(keys[i], vals[i]);
-                    }
-                    navigator.clipboard.writeText(clipboard);
-                    return [3 /*break*/, 4];
+                    result = _a.sent();
+                    prefs = new Map(Object.entries(result));
+                    fullcards_1 = cards.reduce(function (map, card) { return card.id ? map.set(card.name, card) : map; }, new Map());
+                    clip2_1 = clip;
+                    prefs.forEach(function (pref) {
+                        if (fullcards_1.has(pref.name)) {
+                            var full = fullcards_1.get(pref.name);
+                            clip2_1 = clip2_1.replace(cardToString(full), cardToString(pref));
+                        }
+                        else {
+                            clip2_1 = clip2_1.replace(pref.name, cardToString(pref));
+                        }
+                    });
+                    return [4 /*yield*/, navigator.clipboard.writeText(clip2_1)];
                 case 3:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 4:
                     err_1 = _a.sent();
                     console.error(err_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
-// extractBaseCards finds every card in the given text. The cards are returned as
-// an array of strings. 
-function extractBaseCards(text) {
+function cardToString(card) {
+    var str = card.name;
+    if (card.id) {
+        str += " " + card.id;
+    }
+    return str;
+}
+// extractCards finds every card in the given text.
+function extractCards(text) {
     var cards = [];
     var matches;
-    while ((matches = regexBaseCard.exec(text)) !== null) {
-        cards.push(matches[2]);
+    while ((matches = regexCard.exec(text)) !== null) {
+        var name_1 = matches[2].trim();
+        var id = matches[4];
+        if (id) { // card id
+            cards.push({
+                name: name_1,
+                id: id.trim()
+            });
+        }
+        else {
+            cards.push({
+                name: name_1
+            });
+        }
     }
     return cards;
 }
