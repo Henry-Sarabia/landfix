@@ -17,7 +17,7 @@ function savePreferences(e: { preventDefault: () => void; }): void {
         return
     }
  
-    const cards: Card[] = extractFullCards(textarea.value.trim());
+    const cards = extractFullCards(textarea.value.trim());
     textarea.value = "";
     if (Object.entries(cards).length <= 0) {
         return
@@ -32,6 +32,7 @@ function savePreferences(e: { preventDefault: () => void; }): void {
         .catch((err: any) => { console.error(err) });
     return;
 }
+
 // extractFullCards finds every card (including set ID) in the given text. 
 function extractFullCards(text: string): Card[] {
     let cards: Card[] = [];
