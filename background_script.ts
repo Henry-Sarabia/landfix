@@ -2,7 +2,7 @@ const regexCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+)((\(\w+\)) (\d+))?/ig;
 
 browser.browserAction.onClicked.addListener(replaceClipboard);
 
-// Card contains identifying information on a Magic: The Gathering playing card.
+// Card contains identifying information on a Magic: The Gathering Arena playing card.
 interface Card {
     name: string;
     id?: string;
@@ -21,24 +21,25 @@ async function replaceClipboard(): Promise<void> {
         const result = await browser.storage.local.get(names) as unknown as { [key: string]: Card };
         const prefs = new Map(Object.entries(result));
 
-        const fullcards = cards.reduce((map, card) => card.id ? map.set(card.name, card) : map, new Map() as Map<string, Card>);
-        let clip2 = clip;
+        const populated = cards.reduce((map, card) => card.id ? map.set(card.name, card) : map, new Map() as Map<string, Card>);
+        let newclip = clip;
 
         prefs.forEach(pref => {
-            if (fullcards.has(pref.name)) {
-                const full = fullcards.get(pref.name)!;
-                clip2 = clip2.replace(cardToString(full), cardToString(pref));
+            if (populated.has(pref.name)) {
+                const pop = populated.get(pref.name)!;
+                newclip = newclip.replace(cardToString(pop), cardToString(pref));
             } else {
-                clip2 = clip2.replace(pref.name, cardToString(pref));
+                newclip = newclip.replace(pref.name, cardToString(pref));
             }
         })
-        await navigator.clipboard.writeText(clip2);
+        await navigator.clipboard.writeText(newclip);
     } catch (err) {
         console.error(err); 
     }
     return;
 }
 
+// cardToString returns the provided Card as a string in MTGA format.
 function cardToString(card: Card): string {
     let str = card.name;
     if (card.id) {
@@ -55,7 +56,8 @@ function extractCards(text: string): Card[] {
     while ((matches = regexCard.exec(text)) !== null) {
         const name = matches[2].trim();
         const id = matches[4];
-        if (id) { // card id
+
+        if (id) {
             cards.push({
                 name: name,
                 id: id.trim(),

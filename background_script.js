@@ -41,7 +41,7 @@ browser.browserAction.onClicked.addListener(replaceClipboard);
 // in the browser's local storage.
 function replaceClipboard() {
     return __awaiter(this, void 0, void 0, function () {
-        var text, clip, cards, names, result, prefs, fullcards_1, clip2_1, err_1;
+        var text, clip, cards, names, result, prefs, populated_1, newclip_1, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -56,18 +56,18 @@ function replaceClipboard() {
                 case 2:
                     result = _a.sent();
                     prefs = new Map(Object.entries(result));
-                    fullcards_1 = cards.reduce(function (map, card) { return card.id ? map.set(card.name, card) : map; }, new Map());
-                    clip2_1 = clip;
+                    populated_1 = cards.reduce(function (map, card) { return card.id ? map.set(card.name, card) : map; }, new Map());
+                    newclip_1 = clip;
                     prefs.forEach(function (pref) {
-                        if (fullcards_1.has(pref.name)) {
-                            var full = fullcards_1.get(pref.name);
-                            clip2_1 = clip2_1.replace(cardToString(full), cardToString(pref));
+                        if (populated_1.has(pref.name)) {
+                            var pop = populated_1.get(pref.name);
+                            newclip_1 = newclip_1.replace(cardToString(pop), cardToString(pref));
                         }
                         else {
-                            clip2_1 = clip2_1.replace(pref.name, cardToString(pref));
+                            newclip_1 = newclip_1.replace(pref.name, cardToString(pref));
                         }
                     });
-                    return [4 /*yield*/, navigator.clipboard.writeText(clip2_1)];
+                    return [4 /*yield*/, navigator.clipboard.writeText(newclip_1)];
                 case 3:
                     _a.sent();
                     return [3 /*break*/, 5];
@@ -80,6 +80,7 @@ function replaceClipboard() {
         });
     });
 }
+// cardToString returns the provided Card as a string in MTGA format.
 function cardToString(card) {
     var str = card.name;
     if (card.id) {
@@ -94,7 +95,7 @@ function extractCards(text) {
     while ((matches = regexCard.exec(text)) !== null) {
         var name_1 = matches[2].trim();
         var id = matches[4];
-        if (id) { // card id
+        if (id) {
             cards.push({
                 name: name_1,
                 id: id.trim()

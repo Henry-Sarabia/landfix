@@ -3,7 +3,7 @@ const regexFullCard = /(\d+) (([\-\',0-9a-zÀ-ÿ]+ ?)+) ((\(\w+\)) (\d+))/ig;
 
 document.querySelector("form")?.addEventListener("submit", savePreferences);
 
-// Card contains identifying information on a Magic: The Gathering playing card.
+// Card contains identifying information on a Magic: The Gathering Arena playing card.
 interface Card {
     name: string;
     id?: string;
