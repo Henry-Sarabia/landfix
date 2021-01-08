@@ -1,21 +1,28 @@
 body {
-  background: #fff;
-  color: #202023;
+    margin-left: 0.5rem;
+    background: hsl(0, 0, 96%);
+    color: hsl(0, 0, 4%);
 }
 
-p,
 label {
-  color: rgb(74, 74, 79);
+    color: hsl(0, 0, 30%);
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background: #202023;
-    color: #fff;
-  }
+    body {
+        margin-left: 0.5rem;
+        background: hsl(0, 0, 4%);
+        color: hsl(0, 0, 96%);
+    }
+    label {
+        color: hsl(0, 0, 70%);
+    }
+}
 
-  p,
-  label {
-    color: rgb(177, 177, 179);
-  }
+h1 {
+    font-size: 1.2rem;
+}
+
+textarea {
+    margin: 1rem 0rem;
 }
